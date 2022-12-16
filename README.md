@@ -1,4 +1,5 @@
 # dot-net-api-tdd
+based on https://www.youtube.com/watch?v=ULJ3UEezisw
 commands
 1. dotnet new gitignore
 2. dotnet new sln -o CloudCustomers
