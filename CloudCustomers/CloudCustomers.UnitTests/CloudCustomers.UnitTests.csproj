@@ -24,7 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Fictures" />
     <Folder Include="Helpers" />
   </ItemGroup>
 

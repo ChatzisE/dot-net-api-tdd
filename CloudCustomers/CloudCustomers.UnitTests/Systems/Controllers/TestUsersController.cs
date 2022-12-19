@@ -1,6 +1,7 @@
 using CloudCustomers.API.Controllers;
 using CloudCustomers.API.Models;
 using CloudCustomers.API.Services;
+using CloudCustomers.UnitTests.Fictures;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -13,6 +14,9 @@ public class TestUsersController
     public async Task Get_OnSuccess_ReturnsStatusCode200()
     {
         var mockUserService = new Mock<IUsersService>();
+        mockUserService
+            .Setup(service => service.GetAllUsers())
+            .ReturnsAsync(UsersFixture.GetTestUsers());
         // Arrange
         var sut = new UsersController(mockUserService.Object);
         // Act
@@ -40,6 +44,41 @@ public class TestUsersController
             Times.Once());
     }
 
+    [Fact]
+    public async Task Get_OnSuccess_ReturnsListOfUsers()
+    {
+        // Arrange
+        var mockUserService = new Mock<IUsersService>();
+        mockUserService
+            .Setup(service => service.GetAllUsers())
+            .ReturnsAsync(UsersFixture.GetTestUsers());
+
+        var sut = new UsersController(mockUserService.Object);
+        // Act
+        var result = await sut.Get();
+        // Assert
+        result.Should().BeOfType<OkObjectResult>();
+        var objectResult = (OkObjectResult)result;
+        objectResult.Value.Should().BeOfType<List<User>>();
+    }
+
+    [Fact]
+    public async Task Get_OnNoUsersFound_Returns404()
+    {
+        // Arrange
+        var mockUserService = new Mock<IUsersService>();
+        mockUserService
+            .Setup(service => service.GetAllUsers())
+            .ReturnsAsync(new List<User>());
+
+        var sut = new UsersController(mockUserService.Object);
+        // Act
+        var result = await sut.Get();
+        // Assert
+        result.Should().BeOfType<NotFoundResult>();
+        var objectResult = (NotFoundResult)result;
+        objectResult.StatusCode.Should().Be(404);
+    }
     [Theory] // to run the test multiple times with different params
     [InlineData("foo")]
     [InlineData("bar")]
