@@ -1,6 +1,6 @@
 ﻿using CloudCustomers.API.Models;
 
-namespace CloudCustomers.UnitTests.Fictures;
+namespace CloudCustomers.UnitTests.Fixtures;
 
 public static class UsersFixture
 {

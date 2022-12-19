@@ -1,7 +1,7 @@
 using CloudCustomers.API.Controllers;
 using CloudCustomers.API.Models;
 using CloudCustomers.API.Services;
-using CloudCustomers.UnitTests.Fictures;
+using CloudCustomers.UnitTests.Fixtures;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -79,6 +79,7 @@ public class TestUsersController
         var objectResult = (NotFoundResult)result;
         objectResult.StatusCode.Should().Be(404);
     }
+    
     [Theory] // to run the test multiple times with different params
     [InlineData("foo")]
     [InlineData("bar")]
